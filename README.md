@@ -1,3 +1,1 @@
-# engineers-notebook
-
-My custom astro portfolio. This is all designed and created by myself. Thanks for checking it out!
+Hi. This is my new astro portfolio. Hope you like it!
