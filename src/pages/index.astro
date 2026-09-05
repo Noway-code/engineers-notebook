@@ -1,14 +1,16 @@
 ---
-import Layout from  '../layout/Layout.astro'
+import Layout from "../layout/Layout.astro";
+import Footer from "../components/layout/Footer.astro";
 ---
 
 <Layout title="Index">
-    <div class="w-2/3 flex-1 mx-auto items-center flex flex-col relative border border-port-5 py-8">
+  <div class="w-2/3 flex-1 mx-auto items-center flex flex-col relative border-2 border-port-5">
     <div
-      class="absolute inset-0 opacity-10 bg-[url('/Group.svg')] bg-repeat bg-size-[100px_100px]"></div>
+      class="absolute inset-0 opacity-10 bg-[url('/Group.svg')] bg-center bg-repeat bg-size-[100px_100px]"
+    >
+    </div>
 
-  <div class="relative z-10 ">
+    <div class="relative z-10"></div>
   </div>
-  </div>
-    
+  <Footer />
 </Layout>
