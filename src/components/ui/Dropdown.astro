@@ -7,9 +7,9 @@ export interface Props {
 const {
   label = "menu",
   items = [
-    { label: "Home", href: "/" },
-    { label: "Projects", href: "/projects" },
-    { label: "Contact", href: "/contact" },
+    { label: "home", href: "/" },
+    { label: "blog", href: "/blog" },
+    { label: "folio", href: "/folio" },
   ],
 } = Astro.props;
 ---
@@ -20,7 +20,7 @@ const {
     data-dropdown-trigger
     aria-haspopup="true"
     aria-expanded="false"
-    class="flex items-center px-4 py-2 text-2xl font-mono font-light text-black transition-colors hover:bg-port-4/30 focus:outline-none focus:ring-2 focus:ring-port-2"
+    class="flex items-center px-4 py-1 text-2xl font-mono font-light text-black transition-colors cursor-pointer"
   >
     {label}
     <svg
@@ -40,7 +40,7 @@ const {
   <ul
     data-dropdown-menu
     role="menu"
-    class="absolute right-0 z-10 mt-2 hidden w-44 origin-top-right rounded-md border border-port-4 bg-port-1 py-1 shadow-lg"
+    class="absolute font-mono font-extralight text-xl text-right right-0 hidden "
   >
     {
       items.map((item) => (
@@ -48,7 +48,7 @@ const {
           <a
             role="menuitem"
             href={item.href}
-            class="block px-4 py-2 text-sm text-port-3 hover:bg-port-4/30"
+            class="block px-4 py-1 text-black"
           >
             {item.label}
           </a>
