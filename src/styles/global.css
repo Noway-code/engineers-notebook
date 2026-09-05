@@ -6,6 +6,7 @@
   --color-port-3: #636363;
   --color-port-4: #afafaf;
   --color-port-5: #ccc;
+  --color-port-6: #b0c3d0;
 
   --font-sans: var(--font-inter);
   --font-serif: var(--font-crimson-text);
@@ -31,4 +32,25 @@
   to {
     opacity: 0;
   }
+}
+
+/* Graph-paper texture: 12px minor grid with a 60px major grid */
+@utility bg-graph {
+  background-color: #ffffff;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(#9cc4e4 2.4px, transparent 2.4px),
+    linear-gradient(90deg, #9cc4e4 2.4px, transparent 2.4px),
+    linear-gradient(#9cc4e4 1.2px, transparent 1.2px),
+    linear-gradient(90deg, #9cc4e4 1.2px, #ffffff 1.2px);
+  background-size:
+    60px 60px,
+    60px 60px,
+    12px 12px,
+    12px 12px;
+  background-position:
+    -2.4px -2.4px,
+    -2.4px -2.4px,
+    -1.2px -1.2px,
+    -1.2px -1.2px;
 }
