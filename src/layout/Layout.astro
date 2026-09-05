@@ -10,15 +10,17 @@ import '../styles/global.css'
 	<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<Font cssVariable="--font-inter" preload />
 		<Font cssVariable="--font-ibm-plex-mono" />
 		<Font cssVariable="--font-crimson-text" />
 	</head>
-	<body class="bg-port-2">
+	<body class="bg-port-1 min-h-screen flex flex-col">
         <NavBar/>
-        <slot/>
+        <main class="flex-1 flex flex-col pb-8">
+            <slot/>
+        </main>
 	</body>
 </html>
