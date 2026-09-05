@@ -1,17 +1,17 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 import Dropdown from "../ui/Dropdown.astro";
-
 ---
+
 <style>
-    span{
-        display:flex;
-        justify-content: space-between;
-        align-items: center;
-        padding:25;
-    }
+  span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25;
+  }
 </style>
-<span >
-    <Image src="/pen-tool.png" alt="pen" width=50 height="50"/>
-    <Dropdown/>
+<span>
+  <Image src="/pen-tool.png" alt="pen" width="50" height="50" />
+  <Dropdown client:load />
 </span>

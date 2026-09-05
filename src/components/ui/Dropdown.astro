@@ -1,17 +1,9 @@
 ---
-export interface Props {
-  label?: string;
-  items?: { label: string; href: string }[];
-}
-
-const {
-  label = "menu",
-  items = [
-    { label: "home", href: "/" },
-    { label: "blog", href: "/blog" },
-    { label: "folio", href: "/folio" },
-  ],
-} = Astro.props;
+const items = [
+  { label: "home", href: "/" },
+  { label: "blog", href: "/blog" },
+  { label: "folio", href: "/folio" },
+];
 ---
 
 <div class="relative inline-block text-left" data-dropdown>
@@ -20,11 +12,11 @@ const {
     data-dropdown-trigger
     aria-haspopup="true"
     aria-expanded="false"
-    class="flex items-center px-4 py-1 text-2xl font-mono font-light text-black transition-colors cursor-pointer"
+    class="group flex items-center px-4 py-1 text-2xl font-mono font-light text-black transition-colors cursor-pointer"
   >
-    {label}
+    menu
     <svg
-      class="h-4 w-4 transition-transform duration-200 data-[open]:rotate-180"
+      class="h-4 w-4 transition-transform duration-200 group-hover:rotate-180 data-open:rotate-180 data-open:group-hover:rotate-0"
       data-dropdown-icon
       viewBox="0 0 20 20"
       fill="currentColor"
@@ -32,24 +24,19 @@ const {
       <path
         fill-rule="evenodd"
         d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-        clip-rule="evenodd"
-      ></path>
+        clip-rule="evenodd"></path>
     </svg>
   </button>
 
   <ul
     data-dropdown-menu
     role="menu"
-    class="absolute font-mono font-extralight text-xl text-right right-0 hidden "
+    class="absolute font-mono font-extralight text-xl text-right right-0 hidden animate-fade"
   >
     {
       items.map((item) => (
         <li role="none">
-          <a
-            role="menuitem"
-            href={item.href}
-            class="block px-4 py-1 text-black"
-          >
+          <a role="menuitem" href={item.href} class="block px-4 py-1 text-black">
             {item.label}
           </a>
         </li>
@@ -59,24 +46,36 @@ const {
 </div>
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-dropdown]").forEach((dropdown) => {
-    const trigger = dropdown.querySelector<HTMLButtonElement>("[data-dropdown-trigger]");
-    const menu = dropdown.querySelector<HTMLElement>("[data-dropdown-menu]");
-    const icon = dropdown.querySelector<HTMLElement>("[data-dropdown-icon]");
-    if (!trigger || !menu) return;
+  const dropdown = document.querySelector<HTMLElement>("[data-dropdown]");
+  const trigger = dropdown?.querySelector<HTMLButtonElement>("[data-dropdown-trigger]");
+  const menu = dropdown?.querySelector<HTMLElement>("[data-dropdown-menu]");
+  const icon = dropdown?.querySelector<HTMLElement>("[data-dropdown-icon]");
 
+  if (dropdown && trigger && menu) {
     const close = () => {
-      menu.classList.add("hidden");
+      if (menu.classList.contains("hidden")) return;
+      menu.classList.remove("animate-fade");
+      menu.classList.add("animate-fade-out");
       trigger.setAttribute("aria-expanded", "false");
       icon?.removeAttribute("data-open");
     };
 
     const open = () => {
-      menu.classList.remove("hidden");
+      menu.classList.remove("hidden", "animate-fade-out");
+      menu.classList.add("animate-fade");
       trigger.setAttribute("aria-expanded", "true");
       icon?.setAttribute("data-open", "");
     };
 
+    // Only collapse the list once the fade-out has finished playing
+    menu.addEventListener("animationend", (e) => {
+      if (e.animationName === "fadeOut") {
+        menu.classList.add("hidden");
+        menu.classList.remove("animate-fade-out");
+      }
+    });
+
+    // Each click flips list visiblity
     trigger.addEventListener("click", (e) => {
       e.stopPropagation();
       menu.classList.contains("hidden") ? open() : close();
@@ -89,5 +88,5 @@ const {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") close();
     });
-  });
+  }
 </script>
