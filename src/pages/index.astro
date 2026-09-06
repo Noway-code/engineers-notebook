@@ -1,6 +1,15 @@
 ---
 import Layout from "../layout/Layout.astro";
 import Footer from "../components/layout/Footer.astro";
+
+const recent = {
+  label: "big name",
+  description:
+    "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.",
+  image: "",
+  href: "",
+  date: " 20, aug, 2026",
+};
 ---
 
 <Layout title="Index">
@@ -39,12 +48,15 @@ import Footer from "../components/layout/Footer.astro";
       </section>
       <section class="grid w-full auto-rows-fr bg-port-2">
         <!-- DynamicLoad -->
-        <ul class="contents">
-          <li class="flex min-h-0 items-center px-36">
-            <h2 class="font-mono text-sm">NEW POST</h2>
+        <ul class="contents text-[#FFFFFF]">
+          <li class="flex min-h-0 pl-36 pt-6">
+            <h2 class="font-sans text-md font-light opacity-60 tracking-wide uppercase">
+              Latest Post · {recent.date}
+            </h2>
           </li>
-          <li class="flex min-h-0 items-center px-36">
-            <h2 class="font-mono text-sm">NEW POST</h2>
+          <li class="flex flex-col font-sans min-h-0 px-36">
+            <h1 class="text-3xl">{recent.label}</h1>
+            <h2 class="text-lg line-clamp-2">{recent.description}</h2>
           </li>
           <li class="flex min-h-0 items-center px-36">
             <h2 class="font-mono text-sm">NEW POST</h2>
