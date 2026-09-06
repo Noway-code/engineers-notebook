@@ -36,7 +36,6 @@
 
 /* Graph-paper texture: 12px minor grid with a 60px major grid */
 @utility bg-graph {
-  background-color: #ffffff;
   opacity: 0.2;
   background-image:
     linear-gradient(#9cc4e4 2.4px, transparent 2.4px),
@@ -53,4 +52,19 @@
     -2.4px -2.4px,
     -1.2px -1.2px,
     -1.2px -1.2px;
+}
+
+@layer utilities {
+  .paper-grain {
+    position: relative;
+  }
+  .paper-grain::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.12;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
 }
