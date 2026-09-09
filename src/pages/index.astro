@@ -1,9 +1,9 @@
 ---
 import Layout from "../layout/Layout.astro";
 import Footer from "../components/layout/Footer.astro";
-
+import { Image } from "astro:assets";
 const recent = {
-  label: "big name",
+  label: "What is a harness?",
   description:
     "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.",
   image: "",
@@ -46,25 +46,35 @@ const recent = {
           </div>
         </div>
       </section>
-      <section class="grid w-full auto-rows-fr bg-port-2">
-        <!-- DynamicLoad -->
-        <ul class="contents text-[#FFFFFF]">
-          <li class="flex min-h-0 pl-36 pt-6">
-            <h2 class="font-sans text-md font-light opacity-60 tracking-wide uppercase">
-              Latest Post · {recent.date}
-            </h2>
-          </li>
-          <li class="flex flex-col font-sans min-h-0 px-36">
-            <h1 class="text-3xl">{recent.label}</h1>
-            <h2 class="text-lg line-clamp-2">{recent.description}</h2>
-          </li>
-          <li class="flex min-h-0 items-center px-36">
-            <h2 class="font-mono text-sm">NEW POST</h2>
-          </li>
-        </ul>
+      <section class="w-full bg-port-2 flex flex-between">
+        <div class="grid gap-4 py-4 flex-1">
+          <!-- DynamicLoad -->
+          <ul class="contents text-[#FFFFFF]">
+            <li class="flex min-h-0 pl-36 px-6">
+              <h2 class="font-sans text-md font-light opacity-60 tracking-wide uppercase">
+                Latest Post · {recent.date}
+              </h2>
+            </li>
+            <li class="flex flex-col min-h-0 px-36 font-serif">
+              <h1 class="text-6xl">{recent.label}</h1>
+              <h2 class="text-lg line-clamp-2">{recent.description}</h2>
+            </li>
+            <li class="min-h-0 px-36">
+              <h2 class="font-sans text-md underline">keep reading -></h2>
+            </li>
+          </ul>
+        </div>
+        <div class="relative aspect-square h-full shrink-0 overflow-hidden opacity-60">
+          <Image
+            src="/images/lead-climbing-rope-choice-climbing.webp"
+            width={100}
+            height={100}
+            alt=""
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+        </div>
       </section>
-
-      <section class="">hello</section>
+      <section class="w-full flex flex-between px-36 py-8"></section>
     </div>
   </div>
   <Footer />
