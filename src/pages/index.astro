@@ -10,14 +10,26 @@ const recent = {
   href: "",
   date: " 20, aug, 2026",
 };
+const items = [
+  { year: "2025", type: "Experience", description: "Software Engineering Analyst at BNY" },
+  {
+    year: "2025",
+    type: "Publication",
+    description: "Bug Localization in Mobile Apps,” arXiv:2508.05085",
+  },
+  { year: "2024", type: "Project", description: "Ladybug: GUI Bug Localizer" },
+  { year: "2023", type: "Project", description: "Financial Fraud Detector" },
+];
 ---
 
 <Layout title="Index">
-  <div class="w-2/3 flex-1 mx-auto items-center flex flex-col relative border-2 border-port-6">
+  <div
+    class="w-full md:w-2/3 flex-1 mx-auto items-center flex flex-col relative border-2 border-port-6"
+  >
     <div class="bg-graph pointer-events-none absolute inset-0"></div>
 
-    <div class="relative z-10 grid flex-1 w-full grid-rows-3">
-      <section class="relative flex min-h-0 flex-col justify-center gap-4 px-36">
+    <div class="relative z-10 grid flex-1 w-full lg:grid-rows-3">
+      <section class="relative flex min-h-0 flex-col justify-center gap-4 px-6 md:px-12 lg:px-36">
         <p class="font-mono text-sm text-port-3">
           noway@code <span class="text-port-3">~</span>
           <span class="text-port-2">$</span>
@@ -25,7 +37,7 @@ const recent = {
         </p>
         <div class="mt-3 flex items-center gap-6">
           <div
-            class="h-36 w-36 shrink-0 rounded-full bg-port-4 bg-cover bg-center"
+            class="h-24 w-24 sm:h-36 sm:w-36 shrink-0 rounded-full bg-port-4 bg-cover bg-center"
             style="background-image:url('/Head.JPEG')"
             role="img"
             aria-label="Portrait of Camilo Alvarez"
@@ -33,7 +45,9 @@ const recent = {
           </div>
 
           <div class="min-w-0">
-            <h1 class="font-sans text-4xl font-bold tracking-tight text-black">Camilo Alvarez</h1>
+            <h1 class="font-sans text-3xl sm:text-4xl font-bold tracking-tight text-black">
+              Camilo Alvarez
+            </h1>
             <p class="font-sans text-port-2">
               Software Engineering Analyst at BNY &middot; Lake Mary, FL
             </p>
@@ -46,25 +60,27 @@ const recent = {
           </div>
         </div>
       </section>
-      <section class="w-full bg-port-2 flex flex-between">
+      <section class="w-full bg-port-2 flex justify-between">
         <div class="grid gap-4 py-4 flex-1">
           <!-- DynamicLoad -->
           <ul class="contents text-[#FFFFFF]">
-            <li class="flex min-h-0 pl-36 px-6">
+            <li class="flex min-h-0 px-6 md:px-12 lg:px-36">
               <h2 class="font-sans text-md font-light opacity-60 tracking-wide uppercase">
                 Latest Post · {recent.date}
               </h2>
             </li>
-            <li class="flex flex-col min-h-0 px-36 font-serif">
-              <h1 class="text-6xl">{recent.label}</h1>
+            <li class="flex flex-col min-h-0 px-6 md:px-12 lg:px-36 font-serif">
+              <h1 class="text-4xl lg:text-6xl">{recent.label}</h1>
               <h2 class="text-lg line-clamp-2">{recent.description}</h2>
             </li>
-            <li class="min-h-0 px-36">
+            <li class="min-h-0 px-6 md:px-12 lg:px-36">
               <h2 class="font-sans text-md underline">keep reading -></h2>
             </li>
           </ul>
         </div>
-        <div class="relative aspect-square h-full shrink-0 overflow-hidden opacity-60">
+        <div
+          class="relative hidden lg:block aspect-square h-full shrink-0 overflow-hidden opacity-60"
+        >
           <Image
             src="/images/lead-climbing-rope-choice-climbing.webp"
             width={100}
@@ -74,7 +90,30 @@ const recent = {
           />
         </div>
       </section>
-      <section class="w-full flex flex-between px-36 py-8"></section>
+      <section class="w-full flex flex-col px-6 md:px-12 lg:px-24 pt-8">
+        <div class="flex justify-between w-full">
+          <h1 class="flex-1">log</h1>
+          <a class="text-port-2"> download resume </a>
+        </div>
+        <hr class="h-px my-2 bg-port-2 border-0" />
+        <ul class="flex flex-col gap-2">
+          {
+            items.map((item, i) => (
+              <li class="flex gap-4">
+                <div class="flex w-24 shrink-0 gap-2 font-mono font-extralight text-base text-port-3">
+                  <span>{item.year}</span>
+                  {i === 0 && <span>-</span>}
+                </div>
+
+                <div class="w-full min-w-0 flex flex-wrap font-light text-black text-base font-sans gap-x-2">
+                  <h1 class=" font-light italic"> {item.type}. </h1>
+                  <h1 class="min-w-0 font-light break-words"> {item.description} </h1>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
     </div>
   </div>
   <Footer />
