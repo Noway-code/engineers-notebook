@@ -1,14 +1,24 @@
 ---
 title: "What is a harness?"
-description: "Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis."
-pubDate: 2026-09-10
-tags: [climbing, tools]
+description: "The word shows up in climbing gear and in test infrastructure, and in both cases it means the thing that catches you when the interesting part goes wrong."
+pubDate: 2026-09-12
+tags: [tooling, climbing]
 ---
 
-Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex
-sapien vitae pellentesque sem placerat.
+A climbing harness does nothing on a good day. You clip in, you climb, you top
+out, you lower off, and the harness was irrelevant the whole time. It only
+earns its cost during the half-second nobody planned for.
 
-## A subheading
+Test harnesses are the same shape. The code that sets up a fixture, captures
+output, and tears the world back down is invisible when everything passes.
 
-Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec
-metus bibendum egestas.
+## Which is why people under-build them
+
+The failure mode is predictable: the harness is written once, in a hurry, by
+whoever needed the first test to run. It works for that test. Then it accretes
+flags for the next twelve, and by the time it's load-bearing nobody wants to
+touch it.
+
+Worth budgeting for the bad day instead. The question to ask of a harness isn't
+"does the suite pass" — it's "when something breaks at 2am, does this tell me
+what broke."

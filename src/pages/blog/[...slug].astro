@@ -21,9 +21,14 @@ const dateFormat = new Intl.DateTimeFormat("en-US", {
 ---
 
 <Layout title={post.data.title}>
-  <div class="w-full md:w-2/3 mx-auto flex-1 flex flex-col relative border-2 border-port-6">
-    <div class="bg-graph pointer-events-none absolute inset-0"></div>
-
+  <div class="absolute bg-hilbert pointer-events-none inset-0"></div>
+  <div class="w-full md:w-2/3 mx-auto flex-1 flex flex-col relative">
+    <a
+      href={`/blog/`}
+      class="min-w-0 font text-port-2 p-2 px-6 md:px-12 lg:px-32 py-8 font-sans underline underline-offset-2"
+    >
+      ← all posts
+    </a>
     <article class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 py-8">
       <p class="font-mono text-sm text-port-3">{dateFormat.format(post.data.pubDate)}</p>
       <h1 class="font-serif text-4xl lg:text-5xl text-black">{post.data.title}</h1>
@@ -31,13 +36,31 @@ const dateFormat = new Intl.DateTimeFormat("en-US", {
         {post.data.tags.map((tag) => <a href={`/blog?tag=${tag}`}>#{tag}</a>)}
       </div>
       <hr class="h-px my-2 bg-port-2 border-0" />
-      <div class="prose-log font-serif text-lg text-black">
+      <div class="prose-log font-serif text-lg text-black pb-16">
         <Content />
+      </div>
+      <!-- Footer -->
+      <div class="w-full h-12 flex flex-col">
+        <div class="flex gap-2">
+          <div
+            class="h-12 w-12 relative shrink-0 rounded-full bg-port-4 bg-cover bg-center"
+            style="background-image:url('/Head.JPEG')"
+            role="img"
+            aria-label="Portrait of Camilo Alvarez"
+          >
+          </div>
+          <div class="flex flex-col gap-0">
+            <div class="font-sans text-lg font-bold tracking-wide">Camilo Alvarez-Velez</div>
+            <div class="font-sans text-md font-light text-port-2">Software Engineer</div>
+          </div>
+        </div>
+        <hr class="border-2" />
+        <div>me</div>
       </div>
     </article>
   </div>
-  <Footer />
 </Layout>
+<Footer />
 
 <style>
   .prose-log :global(h2) {

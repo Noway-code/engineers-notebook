@@ -4,7 +4,7 @@ import Footer from "../components/layout/Footer.astro";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
@@ -53,8 +53,8 @@ const isRecent = (d: Date) => {
                 "post-item flex flex-col gap-4 bg-white border-2 border-offset-2 col-span-1 rounded-sm p-2",
                 !isRecent(post.data.pubDate)
                   ? "  bg-port-1 border-port-4"
-                  : "bg-gray-100 border-port-2",
-                { " md:col-span-2 md:row-span-3 border-t-8 ": id === 0 },
+                  : "bg-gray-100 border-port-2 border-t-8 ",
+                { " md:col-span-2 md:row-span-3 ": id === 0 },
               ]}
               data-tags={post.data.tags.join(",")}
             >

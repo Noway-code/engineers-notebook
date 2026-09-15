@@ -68,3 +68,32 @@
     pointer-events: none;
   }
 }
+/* Hilbert curve (order 4) background. Curve data lives in hilbert.svg —
+   edit stroke / stroke-width there, tile density via background-size. */
+@utility bg-hilbert {
+  background-color: #ffffff;
+  opacity: 0.3;
+  background-image: url("/hilbert.svg");
+  background-size: 128px 128px;
+  background-repeat: repeat;
+
+  /* Inverted vignette: transparent in the middle, ramping to fully opaque at
+     the edges, so the pattern frames the content instead of sitting under it.
+     Radii are per-axis fractions of the box, so the hole tracks the element's
+     proportions. Raise 25% to widen the clear centre, lower it to shrink it. */
+  --hilbert-mask: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(77, 77, 77, 0.1) 15%,
+    rgba(77, 77, 77, 0) 50%,
+    rgba(77, 77, 77, 0.1) 85%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+
+  mask-image: var(--hilbert-mask);
+  -webkit-mask-image: var(--hilbert-mask);
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
