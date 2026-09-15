@@ -2,6 +2,7 @@
 import Layout from "../layout/Layout.astro";
 import Footer from "../components/layout/Footer.astro";
 import { Image } from "astro:assets";
+import { log } from "../data/log.ts";
 const recent = {
   label: "What is a harness?",
   description:
@@ -10,16 +11,6 @@ const recent = {
   href: "",
   date: " 20, aug, 2026",
 };
-const items = [
-  { year: "2025", type: "Experience", description: "Software Engineering Analyst at BNY" },
-  {
-    year: "2025",
-    type: "Publication",
-    description: "Bug Localization in Mobile Apps,” arXiv:2508.05085",
-  },
-  { year: "2024", type: "Project", description: "Ladybug: GUI Bug Localizer" },
-  { year: "2023", type: "Project", description: "Financial Fraud Detector" },
-];
 ---
 
 <Layout title="Index">
@@ -60,7 +51,7 @@ const items = [
           </div>
         </div>
       </section>
-      <section class="w-full bg-port-2 flex justify-between">
+      <section class="w-full bg-port-2 flex justify-between shadow">
         <div class="grid gap-4 py-4 flex-1">
           <!-- DynamicLoad -->
           <ul class="contents text-[#FFFFFF]">
@@ -90,17 +81,19 @@ const items = [
           />
         </div>
       </section>
-      <section class="w-full flex flex-col px-6 md:px-12 lg:px-32 py-8">
+      <section class="w-full flex flex-col px-6 md:px-12 lg:px-56 py-8">
         <div class="flex justify-between w-full">
-          <h1 class="flex-1">log</h1>
-          <a class="text-port-2"> download resume </a>
+          <h1 class="flex-1 font-light">log</h1>
+          <a href="/docs/Resume.pdf" download="camilo_alvarez_resume" class="text-port-2">
+            download resume
+          </a>
         </div>
         <hr class="h-px my-2 bg-port-2 border-0" />
         <ul class="flex flex-col gap-2">
           {
-            items.map((item, i) => (
+            log.map((item, i) => (
               <li class="flex gap-4">
-                <div class="flex w-24 shrink-0 gap-2 font-mono font-extralight text-base text-port-3">
+                <div class="flex w-24 shrink-0 gap-2 font-mono font-extralight text-base opacity-70">
                   <span>{item.year}</span>
                   {i === 0 && <span>-</span>}
                 </div>

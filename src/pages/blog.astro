@@ -1,9 +1,117 @@
-
 ---
-import Layout from  '../layout/Layout.astro'
+import Layout from "../layout/Layout.astro";
+import Footer from "../components/layout/Footer.astro";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+
+const dateFormat = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+});
+
+const DAY = 1000 * 60 * 60 * 24;
+const now = Date.now();
+
+// A post is "recent" for the 14 days after it goes up. Evaluated at build
+// time, so the marker is only as fresh as the last deploy.
+const isRecent = (d: Date) => {
+  const age = now - d.getTime();
+  return age >= 0 && age <= 14 * DAY;
+};
 ---
 
 <Layout title="blog">
+  <div class="w-full md:w-2/3 mx-auto flex-1 flex flex-col relative border-2 border-port-6">
+    <div class="bg-graph pointer-events-none absolute inset-0"></div>
 
-<h2> blog</h2>
+    <section class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 py-8">
+      <h1 class="flex-1 font-light">blog</h1>
+      <hr class="h-px my-2 bg-port-2 border-0" />
+
+      <div class="tag-filters flex flex-wrap gap-2 py-2 font-mono text-sm">
+        <button class="tag-btn active" data-tag="all">all</button>
+        {
+          allTags.map((tag) => (
+            <button class="tag-btn" data-tag={tag}>
+              {tag}
+            </button>
+          ))
+        }
+      </div>
+
+      <ul id="post-list" class="grid grid-cols-1 gap-4 pt-4 md:grid-cols-3">
+        {
+          posts.map((post, id) => (
+            <li
+              class:list={[
+                "post-item flex flex-col gap-4 bg-white outline col-span-1",
+                !isRecent(post.data.pubDate)
+                  ? "  bg-port-1 outline-port-4"
+                  : "bg-gray-100 outline-port-2",
+                { " md:col-span-2 md:row-span-3": id === 0 },
+              ]}
+              data-tags={post.data.tags.join(",")}
+            >
+              <div class="w-24 shrink-0 font-mono font-extralight text-base opacity-70">
+                {dateFormat.format(post.data.pubDate)}
+              </div>
+              <a
+                href={`/blog/${post.id}`}
+                class="min-w-0 font text-black p-2 font-sans underline underline-offset-2  "
+              >
+                {post.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </div>
+  <Footer />
 </Layout>
+
+<style>
+  .tag-btn {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+  .tag-btn.active {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".tag-btn");
+  const items = document.querySelectorAll<HTMLLIElement>(".post-item");
+
+  function applyFilter(tag: string) {
+    buttons.forEach((b) => b.classList.toggle("active", b.dataset.tag === tag));
+    items.forEach((item) => {
+      const tags = (item.dataset.tags ?? "").split(",");
+      item.style.display = tag === "all" || tags.includes(tag) ? "" : "none";
+    });
+  }
+  // Read ?tag= from the URL on load
+  const params = new URLSearchParams(window.location.search);
+  applyFilter(params.get("tag") || "all");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tag = btn.dataset.tag ?? "all";
+      applyFilter(tag);
+
+      const url = new URL(window.location.href);
+      if (tag === "all") url.searchParams.delete("tag");
+      else url.searchParams.set("tag", tag);
+      history.pushState({}, "", url);
+    });
+  });
+</script>
