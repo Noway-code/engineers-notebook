@@ -32,7 +32,9 @@ const items = [
   <ul
     data-dropdown-menu
     role="menu"
-    class="absolute font-mono font-extralight text-xl text-right right-0 hidden animate-fade"
+    class="absolute z-50 right-0 mt-1 hidden animate-fade py-1 font-mono font-extralight text-xl text-right
+      rounded-sm shadow-lg ring-1 ring-port-4/60 bg-port-1/80
+      max-lg:backdrop-blur-lg max-md:[-webkit-backdrop-filter:blur(16px)]"
   >
     {
       items.map((item) => (
@@ -53,12 +55,15 @@ const items = [
   const icon = dropdown?.querySelector<HTMLElement>("[data-dropdown-icon]");
 
   if (dropdown && trigger && menu) {
+    const page = document.querySelector<HTMLElement>("main");
+
     const close = () => {
       if (menu.classList.contains("hidden")) return;
       menu.classList.remove("animate-fade");
       menu.classList.add("animate-fade-out");
       trigger.setAttribute("aria-expanded", "false");
       icon?.removeAttribute("data-open");
+      page?.classList.remove("max-md:blur-[2px]");
     };
 
     const open = () => {
@@ -66,6 +71,7 @@ const items = [
       menu.classList.add("animate-fade");
       trigger.setAttribute("aria-expanded", "true");
       icon?.setAttribute("data-open", "");
+      page?.classList.add("max-md:blur-[2px]");
     };
 
     // Only collapse the list once the fade-out has finished playing

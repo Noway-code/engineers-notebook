@@ -12,8 +12,8 @@
   --font-serif: var(--font-crimson-text);
   --font-mono: var(--font-ibm-plex-mono);
 
-  --animate-fade: fadeIn 0.2s ease-in-out;
-  --animate-fade-out: fadeOut 0.2s ease-in-out forwards;
+  --animate-fade: fadeIn 0.15s ease-in-out;
+  --animate-fade-out: fadeOut 0.15s ease-in-out forwards;
 }
 
 @keyframes fadeIn {
