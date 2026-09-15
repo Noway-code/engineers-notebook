@@ -27,7 +27,7 @@ const isRecent = (d: Date) => {
 ---
 
 <Layout title="blog">
-  <div class="w-full md:w-2/3 mx-auto flex-1 flex flex-col relative border-2 border-port-6">
+  <div class="w-full md:w-3/4 mx-auto flex-1 flex flex-col relative border-2 border-port-6">
     <div class="bg-graph pointer-events-none absolute inset-0"></div>
 
     <section class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 py-8">
@@ -45,20 +45,20 @@ const isRecent = (d: Date) => {
         }
       </div>
 
-      <ul id="post-list" class="grid grid-cols-1 gap-4 pt-4 md:grid-cols-3">
+      <ul id="post-list" class="grid grid-cols-1 gap-6 pt-4 md:grid-cols-3">
         {
           posts.map((post, id) => (
             <li
               class:list={[
-                "post-item flex flex-col gap-4 bg-white outline col-span-1",
+                "post-item flex flex-col gap-4 bg-white border-2 border-offset-2 col-span-1 rounded-sm p-2",
                 !isRecent(post.data.pubDate)
-                  ? "  bg-port-1 outline-port-4"
-                  : "bg-gray-100 outline-port-2",
-                { " md:col-span-2 md:row-span-3": id === 0 },
+                  ? "  bg-port-1 border-port-4"
+                  : "bg-gray-100 border-port-2",
+                { " md:col-span-2 md:row-span-3 border-t-8 ": id === 0 },
               ]}
               data-tags={post.data.tags.join(",")}
             >
-              <div class="w-24 shrink-0 font-mono font-extralight text-base opacity-70">
+              <div class=" shrink-0 font-mono font-extralight text-base opacity-70">
                 {dateFormat.format(post.data.pubDate)}
               </div>
               <a
