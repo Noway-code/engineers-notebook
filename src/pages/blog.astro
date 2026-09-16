@@ -2,6 +2,7 @@
 import Layout from "../layout/Layout.astro";
 import Footer from "../components/layout/Footer.astro";
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 
 const posts = (await getCollection("blog")).sort(
   (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -48,28 +49,77 @@ const isRecent = (d: Date) => {
         }
       </div>
 
-      <ul id="post-list" class="grid grid-cols-1 gap-6 pt-4 md:grid-cols-3">
+      <ul id="post-list" class="grid grid-cols-1 gap-4 pt-4 md:grid-cols-3">
         {
           posts.map((post, id) => (
             <li
               class:list={[
-                "post-item flex flex-col gap-4 bg-white border-2 border-offset-2 col-span-1 rounded-sm p-2",
-                !isRecent(post.data.pubDate)
-                  ? "  bg-port-1 border-port-4"
-                  : "bg-gray-100 border-port-2 border-t-8 ",
-                { " md:col-span-2 md:row-span-3 ": id === 0 },
+                "post-item group relative flex flex-col overflow-hidden rounded-sm bg-white",
+                "ring-1 ring-port-4/70 transition duration-200",
+                "hover:-translate-y-0.5 hover:shadow-lg hover:ring-port-2",
+                { "md:col-span-2 md:row-span-3": id === 0 },
               ]}
               data-tags={post.data.tags.join(",")}
             >
-              <div class=" shrink-0 font-mono font-extralight text-base opacity-70">
-                {dateFormat.format(post.data.pubDate)}
-              </div>
-              <a
-                href={`/blog/${post.id}`}
-                class="min-w-0 font text-black p-2 font-sans underline underline-offset-2  "
+              <div
+                class:list={[
+                  "relative w-full shrink-0 overflow-hidden bg-port-1",
+                  id === 0 ? "max-h-98 min-h-28 flex-1" : "h-24",
+                ]}
               >
-                {post.data.title}
-              </a>
+                {post.data.cover ? (
+                  <Image
+                    src={post.data.cover}
+                    width={id === 0 ? 900 : 480}
+                    alt=""
+                    class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                ) : (
+                  <>
+                    <div class="bg-graph pointer-events-none absolute inset-0" />
+                    <span class="absolute inset-0 flex items-center justify-center font-mono text-xs tracking-widest text-port-3/70 uppercase">
+                      {post.data.tags[0] ?? "note"}
+                    </span>
+                  </>
+                )}
+              </div>
+
+              <div class="flex flex-col gap-1 p-3">
+                <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase">
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {dateFormat.format(post.data.pubDate)}
+                  </time>
+                  {isRecent(post.data.pubDate) && (
+                    <span class="rounded-full bg-port-2/15 px-2 py-0.5 text-port-2">new</span>
+                  )}
+                </div>
+
+                <h2
+                  class:list={[
+                    "font-serif text-black",
+                    id === 0 ? "text-2xl lg:text-3xl" : "text-lg leading-snug",
+                  ]}
+                >
+                  <a
+                    href={`/blog/${post.id}`}
+                    class="decoration-port-2 underline-offset-4 after:absolute after:inset-0 group-hover:underline"
+                  >
+                    {post.data.title}
+                  </a>
+                </h2>
+
+                {id === 0 && (
+                  <p class="line-clamp-3 font-serif text-base text-port-3">
+                    {post.data.description}
+                  </p>
+                )}
+
+                <div class="flex flex-wrap gap-x-2 font-mono text-xs text-port-3/80">
+                  {post.data.tags.map((tag) => (
+                    <span>#{tag}</span>
+                  ))}
+                </div>
+              </div>
             </li>
           ))
         }
@@ -80,6 +130,15 @@ const isRecent = (d: Date) => {
 </Layout>
 
 <style>
+  /* Cover sits in the bottom half of the card at full strength and dissolves
+     upward, so the text end of the card stays clean paper. Absolute, so it
+     never affects the card's size; object-cover crops instead of stretching. */
+  .card-cover {
+    --card-fade: linear-gradient(to top, #000 35%, transparent 100%);
+    -webkit-mask-image: var(--card-fade);
+    mask-image: var(--card-fade);
+  }
+
   .tag-btn {
     cursor: pointer;
     opacity: 0.6;

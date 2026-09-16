@@ -2,6 +2,7 @@
 title: "An arena allocator in 200 lines"
 description: "Bump a pointer, free the whole thing at once, and delete most of your lifetime bugs along with your call to free()."
 pubDate: 2026-09-04
+cover: "../../assets/harness-climb.webp"
 tags: [c, systems]
 ---
 

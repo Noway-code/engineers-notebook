@@ -4,8 +4,6 @@ import { glob } from "astro/loaders";
 
 const blog = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
-  // Function form: Astro passes in `image()`, which resolves a frontmatter
-  // path through the asset pipeline instead of leaving it a bare string.
   schema: ({ image }) =>
     z.object({
       title: z.string(),

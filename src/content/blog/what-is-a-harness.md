@@ -2,6 +2,7 @@
 title: "What is a harness?"
 description: "The word shows up in climbing gear and in test infrastructure, and in both cases it means the thing that catches you when the interesting part goes wrong."
 pubDate: 2026-09-12
+cover: "../../assets/harness-climb.webp"
 tags: [tooling, climbing]
 ---
 

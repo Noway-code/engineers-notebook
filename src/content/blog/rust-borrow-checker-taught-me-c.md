@@ -2,6 +2,8 @@
 title: "The borrow checker taught me C"
 description: "Writing Rust for a year changed how I write C, which is not the direction anyone advertises."
 pubDate: 2026-08-14
+
+cover: "../../assets/harness-climb.webp"
 tags: [rust, c]
 ---
 
