@@ -9,10 +9,13 @@ const posts = (await getCollection("blog")).sort(
 
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 
+// A bare `2026-09-12` in frontmatter parses as UTC midnight, so format in UTC
+// too -- otherwise a machine behind UTC renders the previous day.
 const dateFormat = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "short",
   day: "numeric",
+  timeZone: "UTC",
 });
 
 const DAY = 1000 * 60 * 60 * 24;

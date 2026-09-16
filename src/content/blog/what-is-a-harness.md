@@ -9,6 +9,10 @@ A climbing harness does nothing on a good day. You clip in, you climb, you top
 out, you lower off, and the harness was irrelevant the whole time. It only
 earns its cost during the half-second nobody planned for.
 
+![A climber mid-route on overhanging limestone, rope running through their harness](../../assets/harness-climb.webp)
+
+Climber on an overhanging limestone roof. [photo credit]
+
 Test harnesses are the same shape. The code that sets up a fixture, captures
 output, and tears the world back down is invisible when everything passes.
 
