@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import Dropdown from "../ui/Dropdown.astro";
+import Logo from "/public/bird.svg";
 ---
 
 <style>
@@ -12,6 +13,8 @@ import Dropdown from "../ui/Dropdown.astro";
   }
 </style>
 <span>
-  <Image src="/pen-tool.png" alt="pen" width="50" height="50" />
+  <a href="/">
+    <Logo width={64} height={64} />
+  </a>
   <Dropdown />
 </span>
