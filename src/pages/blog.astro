@@ -31,8 +31,8 @@ const isRecent = (d: Date) => {
 ---
 
 <Layout title="blog">
-  <div class="w-full md:w-3/4 mx-auto flex-1 flex flex-col relative border-2 border-port-6">
-    <div class="bg-graph pointer-events-none absolute inset-0"></div>
+  <div class="w-full mx-auto flex-1 flex flex-col relative ">
+    <div class="pointer-events-none absolute inset-0"></div>
 
     <section class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 py-8">
       <h1 class="flex-1 font-light">blog</h1>
@@ -49,27 +49,15 @@ const isRecent = (d: Date) => {
         }
       </div>
 
-      <ul id="post-list" class="grid grid-cols-1 gap-4 pt-4 md:grid-cols-3">
+      <ul id="post-list" class="grid grid-cols-1 py-2">
         {
           posts.map((post, id) => (
             <li
-              class:list={[
-                "post-item group relative flex flex-col overflow-hidden rounded-sm bg-white",
-                "ring-1 ring-port-4/70 transition duration-200",
-                "hover:-translate-y-0.5 hover:shadow-lg hover:ring-port-2",
-                { "md:col-span-2 md:row-span-3": id === 0 },
-              ]}
+              class:list={["post-item group relative flex flex-col bg-white"]}
               data-tags={post.data.tags.join(",")}
             >
-              <div
-                class:list={[
-                  "relative w-full shrink-0 overflow-hidden bg-port-1",
-                  id === 0 ? "max-h-98 min-h-28 flex-1" : "h-24",
-                ]}
-              ></div>
-
-              <div class="flex flex-col gap-1 p-3">
-                <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase">
+              <div class="post-card relative flex flex-col gap-1 bg-white px-2 py-1">
+                <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase ">
                   <time datetime={post.data.pubDate.toISOString()}>
                     {dateFormat.format(post.data.pubDate)}
                   </time>
@@ -78,25 +66,14 @@ const isRecent = (d: Date) => {
                   )}
                 </div>
 
-                <h2
-                  class:list={[
-                    "font-serif text-black",
-                    id === 0 ? "text-2xl lg:text-3xl" : "text-lg leading-snug",
-                  ]}
-                >
+                <h2 class:list={["font-serif text-black"]}>
                   <a
                     href={`/blog/${post.id}`}
-                    class="decoration-port-2 underline-offset-4 after:absolute after:inset-0 group-hover:underline"
+                    class="decoration-port-2 text-2xl underline-offset-4 after:absolute after:inset-0 group-hover:underline"
                   >
                     {post.data.title}
                   </a>
                 </h2>
-
-                {id === 0 && (
-                  <p class="line-clamp-3 font-serif text-base text-port-3">
-                    {post.data.description}
-                  </p>
-                )}
 
                 <div class="flex flex-wrap gap-x-2 font-mono text-xs text-port-3/80">
                   {post.data.tags.map((tag) => (
@@ -105,7 +82,8 @@ const isRecent = (d: Date) => {
                 </div>
               </div>
             </li>
-          ))
+            <!-- <hr class="border"/> -->
+            ))
         }
       </ul>
     </section>
@@ -121,6 +99,42 @@ const isRecent = (d: Date) => {
     --card-fade: linear-gradient(to top, #000 35%, transparent 100%);
     -webkit-mask-image: var(--card-fade);
     mask-image: var(--card-fade);
+  }
+
+ 
+  /* The <li> owns :hover and never moves -- if the transformed element were
+     also the hover target, scaling it out from under the cursor would make
+     hover flicker on and off at the card boundary. The inner .post-card does
+     all the moving. */
+  .post-item {
+    isolation: isolate;
+  }
+
+  /* Every card carries a full 1px ring; neighbours overlap by a pixel so the
+     shared edge collapses into a single line instead of doubling up. The ring
+     is an inset shadow, not a border, so swapping it for the thicker hover
+     outline costs no layout shift. */
+  .post-card {
+    transform: translateZ(0);
+    box-shadow: inset 0 0 0 1px var(--color-port-4);
+    transition:
+      transform 200ms ease-out,
+      box-shadow 200ms ease-out;
+  }
+
+  .post-item + .post-item {
+    margin-top: -1px;
+  }
+
+  .post-item:hover {
+    z-index: 10;
+  }
+
+  .post-item:hover .post-card {
+    transform: translateY(-8px) scale(1.008);
+    box-shadow:
+      inset 0 0 0 2px #1F3D7A,
+      0 10px 0 0 #1F3D7A;
   }
 
   .tag-btn {
