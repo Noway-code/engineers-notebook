@@ -37,6 +37,8 @@ const isRecent = (d: Date) => {
       <div class="tag-filters flex flex-wrap gap-2 py-2 font-mono text-sm md:hidden">
         <button class="tag-btn active" data-tag="all">all</button>
         {
+
+
           allTags.map((tag) => (
             <button class="tag-btn" data-tag={tag}>
               {tag}
@@ -47,9 +49,11 @@ const isRecent = (d: Date) => {
 
       <div class="flex gap-6 lg:gap-8 items-start">
         <aside
-          class="tag-filters sticky top-8 hidden w-40 shrink-0 flex-col gap-1 bg-port-2 px-4 py-4 font-mono text-sm text-white md:flex lg:w-48"
-        >
-          <span class="pb-1 text-xs uppercase tracking-wide opacity-60">filter</span>
+          class="tag-filters sticky hidden w-40 shrink-0 flex-col gap-1 font-mono text-lg text-black md:flex lg:w-48"
+          >
+          <div class="post-card relative  text-xl font-mono uppercase  pt-2 max-md:hidden "> 
+              <span>/Filter</span>
+        </div>
           <button class="tag-btn text-left" data-tag="all">all</button>
           {
             allTags.map((tag) => (
@@ -60,11 +64,10 @@ const isRecent = (d: Date) => {
           }
         </aside>
         <div class="flex min-w-0 flex-1 flex-col">
-                <div class="post-card relative grid grid-cols-4 gap-4 font-serif text-xl px-2 pt-2 max-md:hidden "> 
-
-                <span>Date</span>
-                <span class="col-span-2">Title</span>
-                <span>Tags</span>
+                <div class="post-card relative grid grid-cols-4 gap-4 font-mono uppercase text-xl px-2 pt-2 max-md:hidden "> 
+                    <span>/Date</span>
+                    <span class="col-span-2">/Title</span>
+                <span>/Tags</span>
             </div>
         <ul id="post-list" class="grid w-full min-w-0 grid-cols-1 py-2">
 
