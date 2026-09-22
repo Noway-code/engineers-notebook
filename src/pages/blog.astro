@@ -26,8 +26,9 @@ const isRecent = (d: Date) => {
 };
 ---
 
-<Layout title="blog">
-  <div class="w-full mx-auto flex-1 flex flex-col relative ">
+<div>
+  <Layout title="blog" />
+  <div class="w-full mx-auto flex-1 flex flex-col relative">
     <div class="pointer-events-none absolute inset-0"></div>
 
     <section class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 py-8">
@@ -37,8 +38,6 @@ const isRecent = (d: Date) => {
       <div class="tag-filters flex flex-wrap gap-2 py-2 font-mono text-sm md:hidden">
         <button class="tag-btn active" data-tag="all">all</button>
         {
-
-
           allTags.map((tag) => (
             <button class="tag-btn" data-tag={tag}>
               {tag}
@@ -50,10 +49,10 @@ const isRecent = (d: Date) => {
       <div class="flex gap-6 lg:gap-8 items-start">
         <aside
           class="tag-filters sticky hidden w-40 shrink-0 flex-col gap-1 font-mono text-lg text-black md:flex lg:w-48"
-          >
-          <div class="post-card relative  text-xl font-mono uppercase  pt-2 max-md:hidden "> 
-              <span>/Filter</span>
-        </div>
+        >
+          <div class="post-card relative text-xl font-mono uppercase pt-2 max-md:hidden">
+            <span>/Filter</span>
+          </div>
           <button class="tag-btn text-left" data-tag="all">all</button>
           {
             allTags.map((tag) => (
@@ -64,59 +63,58 @@ const isRecent = (d: Date) => {
           }
         </aside>
         <div class="flex min-w-0 flex-1 flex-col">
-                <div class="post-card relative grid grid-cols-4 gap-4 font-mono uppercase text-xl px-2 pt-2 max-md:hidden "> 
-                    <span>/Date</span>
-                    <span class="col-span-2">/Title</span>
-                <span>/Tags</span>
-            </div>
-        <ul id="post-list" class="grid w-full min-w-0 grid-cols-1 py-2">
+          <div
+            class="post-card relative grid grid-cols-4 gap-4 font-mono uppercase text-xl px-2 pt-2 max-md:hidden"
+          >
+            <span>/Date</span>
+            <span class="col-span-2">/Title</span>
+            <span>/Tags</span>
+          </div>
+          <ul id="post-list" class="grid w-full min-w-0 grid-cols-1 py-2">
+            {
+              posts.map((post, id) => (
+                <li
+                  class:list={["post-item group relative flex flex-col bg-white "]}
+                  data-tags={post.data.tags.join(",")}
+                >
+                  <div class="post-card relative grid grid-cols-1  md:grid-cols-4 gap-4 bg-white px-2 py-4 border-b border-port-4">
+                    <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase ">
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {dateFormat.format(post.data.pubDate)}
+                      </time>
+                      {isRecent(post.data.pubDate) && (
+                        <span class="rounded-full bg-port-2/15 px-2 py-0.5 text-port-2">new</span>
+                      )}
+                    </div>
 
-            
-          {
-            posts.map((post, id) => (
-              <li
-                class:list={["post-item group relative flex flex-col bg-white "]}
-                data-tags={post.data.tags.join(",")}
-              >
-                <div class="post-card relative grid grid-cols-1  md:grid-cols-4 gap-4 bg-white px-2 py-4 border-b border-port-4">
-                  <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase ">
-                    <time datetime={post.data.pubDate.toISOString()}>
-                      {dateFormat.format(post.data.pubDate)}
-                    </time>
-                    {isRecent(post.data.pubDate) && (
-                      <span class="rounded-full bg-port-2/15 px-2 py-0.5 text-port-2">new</span>
-                    )}
+                    <h2 class="font-serif text-black md:col-span-2 overflow-hidden text-ellipsis text-nowrap">
+                      <a
+                        href={`/blog/${post.id}`}
+                        class="decoration-port-2 text-2xl underline-offset-4 after:absolute after:inset-0 group-hover:underline"
+                      >
+                        {post.data.title}
+                      </a>
+                    </h2>
+
+                    <div class="flex flex-wrap gap-x-2 font-mono text-xs text-port-3/80 items-center">
+                      {post.data.tags.map((tag) => (
+                        <span>#{tag}</span>
+                      ))}
+                    </div>
                   </div>
-
-                  <h2 class="font-serif text-black md:col-span-2 overflow-hidden text-ellipsis text-nowrap">
-                    <a
-                      href={`/blog/${post.id}`}
-                      class="decoration-port-2 text-2xl underline-offset-4 after:absolute after:inset-0 group-hover:underline"
-                    >
-                      {post.data.title}
-                    </a>
-                  </h2>
-
-                  <div class="flex flex-wrap gap-x-2 font-mono text-xs text-port-3/80 items-center">
-                    {post.data.tags.map((tag) => (
-                      <span>#{tag}</span>
-                    ))}
-                  </div>
-                </div>
-              </li>
-              <!-- <hr class="border"/> -->
+                  {/* <hr class="border" /> */}
+                </li>
               ))
-          }
-        </ul>
+            }
+          </ul>
         </div>
       </div>
     </section>
   </div>
   <Footer />
-</Layout>
+</div>
 
-
-<style> 
+<style>
   .tag-btn {
     cursor: pointer;
     opacity: 0.6;
@@ -125,7 +123,7 @@ const isRecent = (d: Date) => {
     opacity: 1;
     text-decoration: underline;
     text-underline-offset: 2px;
-    }
+  }
 </style>
 
 <script>
@@ -136,7 +134,7 @@ const isRecent = (d: Date) => {
     buttons.forEach((b) => b.classList.toggle("active", b.dataset.tag === tag));
     items.forEach((item) => {
       const tags = (item.dataset.tags ?? "").split(",");
-      item.style.display = tag === "all" || tags.includes(tag) ? "" : "none";
+      item.hidden = !(tag === "all" || tags.includes(tag));
     });
   }
   // Read ?tag= from the URL on load

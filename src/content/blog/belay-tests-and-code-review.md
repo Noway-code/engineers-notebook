@@ -1,6 +1,6 @@
 ---
-title: "Belay checks and code review"
-description: "Climbers run a two-minute ritual before leaving the ground. It works for reasons that have nothing to do with climbing."
+title: 'Belay checks and code review'
+description: 'Climbers run a two-minute ritual before leaving the ground. It works for reasons that have nothing to do with climbing.'
 pubDate: 2026-03-18
 tags: [climbing, career, tooling]
 ---
