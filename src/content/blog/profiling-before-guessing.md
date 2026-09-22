@@ -1,6 +1,6 @@
 ---
-title: "Profile first, and keep the receipts"
-description: "Every performance story I have ends the same way: the slow part was not where anyone thought, including me."
+title: 'Profile first, and keep the receipts'
+description: 'Every performance story I have ends the same way: the slow part was not where anyone thought, including me.'
 pubDate: 2026-07-30
 tags: [debugging, tooling, systems]
 ---

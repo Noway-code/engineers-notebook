@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --color-port-1: #e6e6e6;
@@ -59,7 +59,7 @@
     position: relative;
   }
   .paper-grain::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
@@ -73,7 +73,7 @@
 @utility bg-hilbert {
   background-color: #ffffff;
   opacity: 0.3;
-  background-image: url("/hilbert.svg");
+  background-image: url('/hilbert.svg');
   background-size: 128px 128px;
   background-repeat: repeat;
 

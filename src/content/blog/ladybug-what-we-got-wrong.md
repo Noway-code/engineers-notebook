@@ -1,6 +1,6 @@
 ---
-title: "Ladybug: what we got wrong"
-description: "Notes on building a GUI bug localizer, and the gap between a metric improving and a tool being useful to the person holding the bug report."
+title: 'Ladybug: what we got wrong'
+description: 'Notes on building a GUI bug localizer, and the gap between a metric improving and a tool being useful to the person holding the bug report.'
 pubDate: 2026-08-27
 tags: [research, debugging, tooling]
 ---

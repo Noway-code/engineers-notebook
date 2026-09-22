@@ -1,6 +1,6 @@
 ---
-title: "Reading papers without a PhD"
-description: "Systems papers are more approachable than they look, as long as you stop trying to read them front to back."
+title: 'Reading papers without a PhD'
+description: 'Systems papers are more approachable than they look, as long as you stop trying to read them front to back.'
 pubDate: 2026-07-02
 tags: [research, career]
 ---

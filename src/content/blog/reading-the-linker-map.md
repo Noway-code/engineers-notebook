@@ -1,5 +1,5 @@
 ---
-title: "Reading the linker map when nothing else talks"
+title: 'Reading the linker map when nothing else talks'
 description: "A binary that's mysteriously 400KB heavier than last week will not explain itself, but the map file will — if you can stand to read it."
 pubDate: 2026-09-09
 tags: [systems, c, debugging]

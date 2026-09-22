@@ -10,8 +10,6 @@ const posts = (await getCollection("blog")).sort(
 
 const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
 
-// A bare `2026-09-12` in frontmatter parses as UTC midnight, so format in UTC
-// too -- otherwise a machine behind UTC renders the previous day.
 const dateFormat = new Intl.DateTimeFormat("en-US", {
   year: "numeric",
   month: "short",
@@ -22,23 +20,22 @@ const dateFormat = new Intl.DateTimeFormat("en-US", {
 const DAY = 1000 * 60 * 60 * 24;
 const now = Date.now();
 
-// A post is "recent" for the 14 days after it goes up. Evaluated at build
-// time, so the marker is only as fresh as the last deploy.
 const isRecent = (d: Date) => {
   const age = now - d.getTime();
   return age >= 0 && age <= 14 * DAY;
 };
 ---
 
-<Layout title="blog">
-  <div class="w-full mx-auto flex-1 flex flex-col relative ">
+<div>
+  <Layout title="blog" />
+  <div class="w-full mx-auto flex-1 flex flex-col relative">
     <div class="pointer-events-none absolute inset-0"></div>
 
     <section class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 py-8">
       <h1 class="flex-1 font-light">blog</h1>
       <hr class="h-px my-2 bg-port-2 border-0" />
 
-      <div class="tag-filters flex flex-wrap gap-2 py-2 font-mono text-sm">
+      <div class="tag-filters flex flex-wrap gap-2 py-2 font-mono text-sm md:hidden">
         <button class="tag-btn active" data-tag="all">all</button>
         {
           allTags.map((tag) => (
@@ -49,94 +46,75 @@ const isRecent = (d: Date) => {
         }
       </div>
 
-      <ul id="post-list" class="grid grid-cols-1 py-2">
-        {
-          posts.map((post, id) => (
-            <li
-              class:list={["post-item group relative flex flex-col bg-white"]}
-              data-tags={post.data.tags.join(",")}
-            >
-              <div class="post-card relative flex flex-col gap-1 bg-white px-2 py-1">
-                <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase ">
-                  <time datetime={post.data.pubDate.toISOString()}>
-                    {dateFormat.format(post.data.pubDate)}
-                  </time>
-                  {isRecent(post.data.pubDate) && (
-                    <span class="rounded-full bg-port-2/15 px-2 py-0.5 text-port-2">new</span>
-                  )}
-                </div>
-
-                <h2 class:list={["font-serif text-black"]}>
-                  <a
-                    href={`/blog/${post.id}`}
-                    class="decoration-port-2 text-2xl underline-offset-4 after:absolute after:inset-0 group-hover:underline"
-                  >
-                    {post.data.title}
-                  </a>
-                </h2>
-
-                <div class="flex flex-wrap gap-x-2 font-mono text-xs text-port-3/80">
-                  {post.data.tags.map((tag) => (
-                    <span>#{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </li>
-            <!-- <hr class="border"/> -->
+      <div class="flex gap-6 lg:gap-8 items-start">
+        <aside
+          class="tag-filters sticky hidden w-40 shrink-0 flex-col gap-1 font-mono text-lg text-black md:flex lg:w-48"
+        >
+          <div class="post-card relative text-xl font-mono uppercase pt-2 max-md:hidden">
+            <span>/Filter</span>
+          </div>
+          <button class="tag-btn text-left" data-tag="all">all</button>
+          {
+            allTags.map((tag) => (
+              <button class="tag-btn text-left" data-tag={tag}>
+                {tag}
+              </button>
             ))
-        }
-      </ul>
+          }
+        </aside>
+        <div class="flex min-w-0 flex-1 flex-col">
+          <div
+            class="post-card relative grid grid-cols-4 gap-4 font-mono uppercase text-xl px-2 pt-2 max-md:hidden"
+          >
+            <span>/Date</span>
+            <span class="col-span-2">/Title</span>
+            <span>/Tags</span>
+          </div>
+          <ul id="post-list" class="grid w-full min-w-0 grid-cols-1 py-2">
+            {
+              posts.map((post, id) => (
+                <li
+                  class:list={["post-item group relative flex flex-col bg-white "]}
+                  data-tags={post.data.tags.join(",")}
+                >
+                  <div class="post-card relative grid grid-cols-1  md:grid-cols-4 gap-4 bg-white px-2 py-4 border-b border-port-4">
+                    <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase ">
+                      <time datetime={post.data.pubDate.toISOString()}>
+                        {dateFormat.format(post.data.pubDate)}
+                      </time>
+                      {isRecent(post.data.pubDate) && (
+                        <span class="rounded-full bg-port-2/15 px-2 py-0.5 text-port-2">new</span>
+                      )}
+                    </div>
+
+                    <h2 class="font-serif text-black md:col-span-2 overflow-hidden text-ellipsis text-nowrap">
+                      <a
+                        href={`/blog/${post.id}`}
+                        class="decoration-port-2 text-2xl underline-offset-4 after:absolute after:inset-0 group-hover:underline"
+                      >
+                        {post.data.title}
+                      </a>
+                    </h2>
+
+                    <div class="flex flex-wrap gap-x-2 font-mono text-xs text-port-3/80 items-center">
+                      {post.data.tags.map((tag) => (
+                        <span>#{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                  {/* <hr class="border" /> */}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
     </section>
   </div>
   <Footer />
-</Layout>
+</div>
 
 <style>
-  /* Cover sits in the bottom half of the card at full strength and dissolves
-     upward, so the text end of the card stays clean paper. Absolute, so it
-     never affects the card's size; object-cover crops instead of stretching. */
-  .card-cover {
-    --card-fade: linear-gradient(to top, #000 35%, transparent 100%);
-    -webkit-mask-image: var(--card-fade);
-    mask-image: var(--card-fade);
-  }
-
- 
-  /* The <li> owns :hover and never moves -- if the transformed element were
-     also the hover target, scaling it out from under the cursor would make
-     hover flicker on and off at the card boundary. The inner .post-card does
-     all the moving. */
-  .post-item {
-    isolation: isolate;
-  }
-
-  /* Every card carries a full 1px ring; neighbours overlap by a pixel so the
-     shared edge collapses into a single line instead of doubling up. The ring
-     is an inset shadow, not a border, so swapping it for the thicker hover
-     outline costs no layout shift. */
-  .post-card {
-    transform: translateZ(0);
-    box-shadow: inset 0 0 0 1px var(--color-port-4);
-    transition:
-      transform 200ms ease-out,
-      box-shadow 200ms ease-out;
-  }
-
-  .post-item + .post-item {
-    margin-top: -1px;
-  }
-
-  .post-item:hover {
-    z-index: 10;
-  }
-
-  .post-item:hover .post-card {
-    transform: translateY(-8px) scale(1.008);
-    box-shadow:
-      inset 0 0 0 2px #1F3D7A,
-      0 10px 0 0 #1F3D7A;
-  }
-
   .tag-btn {
     cursor: pointer;
     opacity: 0.6;
@@ -156,7 +134,7 @@ const isRecent = (d: Date) => {
     buttons.forEach((b) => b.classList.toggle("active", b.dataset.tag === tag));
     items.forEach((item) => {
       const tags = (item.dataset.tags ?? "").split(",");
-      item.style.display = tag === "all" || tags.includes(tag) ? "" : "none";
+      item.hidden = !(tag === "all" || tags.includes(tag));
     });
   }
   // Read ?tag= from the URL on load

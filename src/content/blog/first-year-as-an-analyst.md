@@ -1,6 +1,6 @@
 ---
-title: "First year on a team that predates me by a decade"
-description: "What I actually learned joining a codebase with fifteen years of history and load-bearing decisions nobody remembers making."
+title: 'First year on a team that predates me by a decade'
+description: 'What I actually learned joining a codebase with fifteen years of history and load-bearing decisions nobody remembers making.'
 pubDate: 2026-05-20
 tags: [career]
 ---
