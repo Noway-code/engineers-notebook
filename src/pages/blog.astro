@@ -149,7 +149,12 @@ const isRecent = (d: Date) => {
       const url = new URL(window.location.href);
       if (tag === "all") url.searchParams.delete("tag");
       else url.searchParams.set("tag", tag);
-      history.pushState({}, "", url);
+      history.replaceState({}, "", url);
     });
+  });
+
+  window.addEventListener("popstate", () => {
+    const tag = new URLSearchParams(window.location.search).get("tag") || "all";
+    applyFilter(tag);
   });
 </script>
