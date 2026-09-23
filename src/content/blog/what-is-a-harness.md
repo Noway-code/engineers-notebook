@@ -12,18 +12,31 @@ earns its cost during the half-second nobody planned for.
 
 ![A climber mid-route on overhanging limestone, rope running through their harness](../../assets/harness-climb.webp)
 
-Climber on an overhanging limestone roof. [photo credit]
+Overhanging limestone, somewhere past the third bolt.
 
-Test harnesses are the same shape. The code that sets up a fixture, captures
+Test harnesses are the same shape. The code that builds a fixture, captures
 output, and tears the world back down is invisible when everything passes.
+Nobody demos it. Nobody puts it in the changelog.
 
 ## Which is why people under-build them
 
-The failure mode is predictable: the harness is written once, in a hurry, by
+The failure mode is predictable. The harness gets written once, in a hurry, by
 whoever needed the first test to run. It works for that test. Then it accretes
 flags for the next twelve, and by the time it's load-bearing nobody wants to
 touch it.
 
-Worth budgeting for the bad day instead. The question to ask of a harness isn't
-"does the suite pass" — it's "when something breaks at 2am, does this tell me
-what broke."
+So it's worth budgeting for the bad day up front. When a test fails at 2am, the
+harness should already be able to tell me:
+
+- which input produced the failure, in a form I can replay by hand
+- what the process actually saw — env, working directory, clock, seed
+- whether this is the first failure or the fourth in a row
+- how to run this one case alone, without the other four hundred
+
+None of that helps a passing suite. That's the point.
+
+## The real question
+
+The question to ask of a harness isn't "does the suite pass." It's "when
+something breaks and I wasn't watching, does this tell me what broke." A green
+checkmark is the least interesting thing it produces.

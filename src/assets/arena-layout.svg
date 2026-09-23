@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600" role="img" aria-labelledby="arena-title">
+  <title id="arena-title">An arena before and after reset: three allocations packed against a single bump cursor, then the cursor returned to the start</title>
+
+  <style>
+    text {
+      font-family: ui-monospace, "IBM Plex Mono", "SF Mono", Menlo, Consolas, monospace;
+      fill: #636363;
+    }
+    .lbl { font-size: 19px; }
+    .lbl-sm { font-size: 15px; }
+    .lbl-ink { fill: #5a7fc4; }
+    .lbl-dark { fill: #1c1c1c; }
+    .lbl-mute { fill: #a5a5a5; }
+    .block { fill: #5a7fc4; fill-opacity: 0.16; stroke: #5a7fc4; stroke-width: 2; }
+    .free { fill: #ffffff; stroke: #afafaf; stroke-width: 2; stroke-dasharray: 6 5; }
+    .cursor { stroke: #5a7fc4; stroke-width: 3; }
+    .thin { stroke: #5a7fc4; stroke-width: 2; stroke-opacity: 0.45; }
+  </style>
+
+  <rect width="1000" height="600" fill="#ffffff"/>
+
+  <!-- state one: three allocations, cursor parked after the last -->
+  <text class="lbl lbl-dark" x="80" y="66">after three allocations</text>
+
+  <rect class="block" x="80"  y="100" width="180" height="76"/>
+  <rect class="block" x="260" y="100" width="210" height="76"/>
+  <rect class="block" x="470" y="100" width="130" height="76"/>
+  <rect class="free"  x="600" y="100" width="320" height="76"/>
+
+  <text class="lbl" x="170" y="146" text-anchor="middle">a</text>
+  <text class="lbl" x="365" y="146" text-anchor="middle">b</text>
+  <text class="lbl" x="535" y="146" text-anchor="middle">c</text>
+  <text class="lbl lbl-mute" x="845" y="146" text-anchor="middle">unused</text>
+
+  <!-- bump direction, kept clear of the unused label -->
+  <line class="thin" x1="614" y1="138" x2="688" y2="138"/>
+  <path class="thin" d="M688 138 L677 132 M688 138 L677 144" fill="none"/>
+  <text class="lbl-sm lbl-ink" x="698" y="143">bump</text>
+
+  <!-- extents and cursor, all below the bar so nothing crowds the heading -->
+  <text class="lbl-sm" x="80"  y="202">begin</text>
+  <text class="lbl-sm" x="920" y="202" text-anchor="end">capacity</text>
+
+  <line class="cursor" x1="600" y1="92" x2="600" y2="184"/>
+  <path class="cursor" d="M600 236 L600 212 M600 212 L594 222 M600 212 L606 222" fill="none"/>
+  <text class="lbl-sm lbl-ink" x="600" y="258" text-anchor="middle">offset</text>
+
+  <!-- the operation -->
+  <line x1="80" y1="330" x2="404" y2="330" stroke="#afafaf" stroke-width="1"/>
+  <line x1="596" y1="330" x2="920" y2="330" stroke="#afafaf" stroke-width="1"/>
+  <text class="lbl lbl-ink" x="500" y="337" text-anchor="middle">arena_reset()</text>
+
+  <!-- state two: cursor back at the start, nothing freed individually -->
+  <text class="lbl lbl-dark" x="80" y="424">after one reset</text>
+  <text class="lbl-sm lbl-mute" x="920" y="424" text-anchor="end">no per-object free()</text>
+
+  <rect class="free" x="80" y="458" width="840" height="76"/>
+  <text class="lbl lbl-mute" x="500" y="504" text-anchor="middle">unused</text>
+
+  <line class="cursor" x1="80" y1="450" x2="80" y2="542"/>
+  <path class="cursor" d="M80 566 L80 554 M80 554 L74 564 M80 554 L86 564" fill="none"/>
+  <text class="lbl-sm lbl-ink" x="80" y="590">offset</text>
+</svg>

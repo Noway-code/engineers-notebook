@@ -2,87 +2,56 @@
 title: 'The borrow checker taught me C'
 description: 'Writing Rust for a year changed how I write C, which is not the direction anyone advertises.'
 pubDate: 2026-08-14
-
-cover: '../../assets/harness-climb.webp'
 tags: [rust, c]
 ---
 
-TThe borrow checker's arguments are about ownership: who is responsible for
-this memory, how long is this reference valid, can two things touch it at
-once. Every one of those questions applies just as hard in C. C simply won't
-ask them for you.
+The pitch for Rust is that the compiler stops you from writing the bugs. That's
+true, and it isn't the part that stuck.
 
-## The habit that stuck
+What stuck was the interrogation. Every argument the borrow checker ever had
+with me was about ownership: who is responsible for this memory, how long is
+this reference valid, can two things touch it at the same time. Every one of
+those questions applies just as hard in C. C simply won't ask them for you.
 
-After enough rejected code I started answering the questions before writing
-anything. Who owns this. When does it die. Who else has a pointer.
+## Answering before the compiler can
 
-In C that turns into ownership documented at the boundary — a comment saying
-the caller frees this, a constructor/destructor pair that's obviously paired, a
-struct that owns its buffer and says so. Nothing checks it. But asking the
-question at all catches most of what I used to ship.The borrow checker's arguments are about ownership: who is responsible for
-this memory, how long is this reference valid, can two things touch it at
-once. Every one of those questions applies just as hard in C. C simply won't
-ask them for you.
+After enough rejected code I started answering up front. Who owns this. When
+does it die. Who else holds a pointer.
 
-## The habit that stuck
+That turns into different C. Not safer by any mechanism — nothing is checked —
+but written by someone who has already had the argument. Here's the version I
+used to write:
 
-After enough rejected code I started answering the questions before writing
-anything. Who owns this. When does it die. Who else has a pointer.
+```c
+// Returns a buffer. Caller... does something? Check the callers.
+char *render_row(Row *r);
+```
 
-In C that turns into ownership documented at the boundary — a comment saying
-the caller frees this, a constructor/destructor pair that's obviously paired, a
-struct that owns its buffer and says so. Nothing checks it. But asking the
-question at all catches most of what I used to ship.The borrow checker's arguments are about ownership: who is responsible for
-this memory, how long is this reference valid, can two things touch it at
-once. Every one of those questions applies just as hard in C. C simply won't
-ask them for you.
+And the version I write now:
 
-## The habit that stuck
+```c
+// Renders into `out` (cap bytes). Borrows `r` for the call only; does not
+// retain it. Returns bytes written, or -1 if it would not fit.
+int render_row(const Row *r, char *out, size_t cap);
+```
 
-After enough rejected code I started answering the questions before writing
-anything. Who owns this. When does it die. Who else has a pointer.
+The second one has the answers in it. The caller owns the memory, the callee
+borrows the input and says so, and the lifetime question never comes up because
+nothing outlives the call.
 
-In C that turns into ownership documented at the boundary — a comment saying
-the caller frees this, a constructor/destructor pair that's obviously paired, a
-struct that owns its buffer and says so. Nothing checks it. But asking the
-question at all catches most of what I used to ship.The borrow checker's arguments are about ownership: who is responsible for
-this memory, how long is this reference valid, can two things touch it at
-once. Every one of those questions applies just as hard in C. C simply won't
-ask them for you.
+## The three habits
 
-## The habit that stuck
+- Ownership belongs at the boundary, in the signature or in a comment directly
+  above it — not in a design doc, and not in the reader's head.
+- `const` on a parameter is a promise about aliasing, which is the only part of
+  `&`-versus-`&mut` that C can express at all. Make it, and keep it.
+- Constructor and destructor get written in the same sitting, next to each
+  other, before the struct gets used anywhere.
 
-After enough rejected code I started answering the questions before writing
-anything. Who owns this. When does it die. Who else has a pointer.
+None of this is enforced. A junior version of me would have called that
+worthless — if the compiler can't check it, why bother.
 
-In C that turns into ownership documented at the boundary — a comment saying
-the caller frees this, a constructor/destructor pair that's obviously paired, a
-struct that owns its buffer and says so. Nothing checks it. But asking the
-question at all catches most of what I used to ship.The borrow checker's arguments are about ownership: who is responsible for
-this memory, how long is this reference valid, can two things touch it at
-once. Every one of those questions applies just as hard in C. C simply won't
-ask them for you.
-
-## The habit that stuck
-
-After enough rejected code I started answering the questions before writing
-anything. Who owns this. When does it die. Who else has a pointer.
-
-In C that turns into ownership documented at the boundary — a comment saying
-the caller frees this, a constructor/destructor pair that's obviously paired, a
-struct that owns its buffer and says so. Nothing checks it. But asking the
-question at all catches most of what I used to ship.he borrow checker's arguments are about ownership: who is responsible for
-this memory, how long is this reference valid, can two things touch it at
-once. Every one of those questions applies just as hard in C. C simply won't
-ask them for you.
-
-## The habit that stuck
-
-After enough rejected code I started answering the questions before writing
-anything. Who owns this. When does it die. Who else has a pointer.
-
-In C that turns into ownership documented at the boundary — a comment saying
-the caller frees this, a constructor/destructor pair that's obviously paired, a
-struct that owns its buffer and says so. Nothing checks it. But asking the
-question at all catches most of what I used to ship.
+But most of the memory bugs I used to ship weren't cases where I knew the
+ownership rule and typo'd it. They were cases where *nobody had ever decided*
+what the rule was. Deciding is free. Rust just made me do it a few hundred
+times in a row until it was a habit.

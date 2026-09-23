@@ -27,14 +27,13 @@ const isRecent = (d: Date) => {
 ---
 
 <div>
+  <div class="absolute bg-hilbert pointer-events-none inset-0"></div>
   <Layout title="blog" />
-  <div class="mx-auto flex-1 flex flex-col relative">
+  <div class="mx-auto flex-1 flex flex-col relative px-6 md:px-12 lg:px-32">
     <div class="pointer-events-none absolute inset-0"></div>
 
-    <section class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 py-8">
-      <h1 class="flex-1 font-light">blog</h1>
-      <hr class="h-px my-2 bg-port-2 border-0" />
-
+    <h1 class="flex-1 font-bold font-sans text-8xl pb-8">blog</h1>
+    <section class="relative z-10 flex flex-col">
       <div class="tag-filters flex flex-wrap gap-2 py-2 font-mono text-sm md:hidden">
         <!-- This is top tags -->
         <button class="tag-btn active" data-tag="all">all</button>
@@ -50,15 +49,19 @@ const isRecent = (d: Date) => {
       <div class="flex gap-6 lg:gap-8 items-start">
         <!-- Side bar tags -->
         <aside
-          class="tag-filters sticky hidden w-40 shrink-0 flex-col gap-1 font-mono text-lg text-black md:flex lg:w-48"
+          class="tag-filters sticky hidden w-40 shrink-0 flex-col gap-1 text-black md:flex lg:w-48"
         >
-          <div class="post-card relative text-xl font-mono uppercase pt-2 max-md:hidden">
-            <span>/Filter</span>
+          <div
+            class="post-card relative font-mono font-light uppercase tracking-tighter text-md pt-2 max-md:hidden"
+          >
+            <span>/ Filter</span>
+
+            <hr class="border border-port-2 mt-2" />
           </div>
-          <button class="tag-btn text-left" data-tag="all">all</button>
+          <button class="tag-btn text-left font-mono text-lg" data-tag="all">all</button>
           {
             allTags.map((tag) => (
-              <button class="tag-btn w-fit text-left" data-tag={tag}>
+              <button class="tag-btn w-fit text-left font-mono text-lg" data-tag={tag}>
                 {tag}
               </button>
             ))
@@ -66,20 +69,22 @@ const isRecent = (d: Date) => {
         </aside>
         <div class="flex min-w-0 flex-1 flex-col">
           <div
-            class="post-card relative grid grid-cols-4 gap-4 font-mono uppercase text-xl px-2 pt-2 max-md:hidden"
+            class="post-card relative grid grid-cols-4 gap-4 font-mono font-light uppercase tracking-tighter text-md px-2 pt-2 max-md:hidden"
           >
-            <span>/Date</span>
-            <span class="col-span-2">/Title</span>
-            <span>/Tags</span>
+            <span>/ Date</span>
+            <span class="col-span-2">/ Title</span>
+            <span>/ Tags</span>
           </div>
+
+          <hr class="border border-port-2 mt-2" />
           <ul id="post-list" class="grid w-full min-w-0 grid-cols-1 py-2">
             {
               posts.map((post, id) => (
                 <li
-                  class:list={["post-item group relative flex flex-col bg-white "]}
+                  class:list={["post-item group relative flex flex-col  "]}
                   data-tags={post.data.tags.join(",")}
                 >
-                  <div class="post-card relative grid grid-cols-1  md:grid-cols-4 gap-4 bg-white px-2 py-4 border-b border-port-4">
+                  <div class="post-card relative grid grid-cols-1  md:grid-cols-4 gap-4  px-2 py-4 border-b border-port-4">
                     <div class="flex items-center gap-2 font-mono text-xs tracking-wide text-port-3 uppercase ">
                       <time datetime={post.data.pubDate.toISOString()}>
                         {dateFormat.format(post.data.pubDate)}
