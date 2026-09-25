@@ -8,6 +8,24 @@
   --color-port-5: #ccc;
   --color-port-6: #b0c3d0;
 
+  --color-port-blue-100: #b3c8ee;
+  --color-port-blue-200: #81a1da;
+  --color-port-blue-300: #5a7fc4;
+  --color-port-blue-400: #3c63ac;
+  --color-port-blue-500: #1f4c9e;
+
+  --color-port-yellow-100: #fff2b9;
+  --color-port-yellow-200: #ffe98b;
+  --color-port-yellow-300: #ffe266;
+  --color-port-yellow-400: #ffdc46;
+  --color-port-yellow-500: #eec61a;
+
+  --color-port-orange-100: #ffd6b9;
+  --color-port-orange-200: #ffbc8b;
+  --color-port-orange-300: #ffa766;
+  --color-port-orange-400: #ff9546;
+  --color-port-orange-500: #ee741a;
+
   --font-sans: var(--font-inter);
   --font-serif: var(--font-crimson-text);
   --font-mono: var(--font-ibm-plex-mono);

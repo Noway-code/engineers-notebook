@@ -42,13 +42,13 @@ const dateFormat = new Intl.DateTimeFormat("en-US", {
     >
       ← all posts
     </a>
-    <article class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 pt-4">
-      <p class="font-mono text-sm text-port-3 pb-2">{dateFormat.format(post.data.pubDate)}</p>
+    <article class="relative z-10 flex flex-col px-6 md:px-12 lg:px-32 pt-2">
+      <p class="font-mono text-sm text-port-3 pb-4">{dateFormat.format(post.data.pubDate)}</p>
       <h1 class="font-serif text-4xl lg:text-5xl text-black">{post.data.title}</h1>
-      <div class="flex flex-wrap gap-2 py-2 font-mono text-sm opacity-60">
+      <div class="flex flex-wrap gap-2 pb-2 font-mono text-sm opacity-60">
         {post.data.tags.map((tag) => <a href={`/blog?tag=${tag}`}>#{tag}</a>)}
       </div>
-      <hr class="h-px my-2 bg-port-2 border-0" />
+      <hr class="h-px my-2 bg-port-blue-400 border-0" />
       <div class="prose-log font-serif text-lg text-black pb-16">
         <Content />
       </div>
@@ -99,18 +99,77 @@ const dateFormat = new Intl.DateTimeFormat("en-US", {
 
   .prose-log :global(h2) {
     font-size: 1.5rem;
-    margin: 1.25rem 0 0.5rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem;
   }
+  /* The container is text-lg, so an h3 has to clear 1.125rem to read as a
+     heading rather than as a caption. */
   .prose-log :global(h3) {
-    font-size: 1rem;
-    margin: 1.25rem 0 0.5rem;
+    font-size: 1.25rem;
+    margin: 1.75rem 0 0.75rem;
   }
   .prose-log :global(p) {
-    margin: 0.75rem 0;
+    margin: 0.65rem 0;
+    line-height: 1.35;
   }
   .prose-log :global(a) {
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+  .prose-log :global(ul) {
+    list-style: square outside;
+    margin-left: 20px;
+    padding-left: 0;
+  }
+  /* Preflight clears markers on ol too, and three posts number their steps. */
+  .prose-log :global(ol) {
+    list-style: decimal outside;
+    margin-left: 20px;
+    padding-left: 0;
+  }
+  .prose-log :global(li)::marker {
+    color: var(--color-port-blue-500);
+  }
+
+  .prose-log :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.8em;
+    background: var(--color-port-blue-100);
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+  }
+  .prose-log :global(pre) {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1.25rem 0;
+    padding: 1rem;
+    /* Shiki paints the background inline from its theme, and Astro sets
+       overflow-x there too, so the left rule is the only part that's ours.
+       port-blue-300 is legible on both the light and dark Shiki themes. */
+    border-left: 3px solid var(--color-port-blue-400);
+  }
+  /* Shiki colours the inner spans; the outer <code> must drop the inline chip. */
+  .prose-log :global(pre code) {
+    background: none;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  /* A lighter rule than the one on <pre>, so a quote and a code block don't
+     read as the same kind of interruption. */
+  .prose-log :global(blockquote) {
+    margin: 1.25rem 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-port-blue-100);
+    color: var(--color-gray-600);
+    font-style: italic;
+  }
+  .prose-log :global(blockquote p) {
+    margin: 0.5rem 0;
+  }
+  .prose-log :global(strong) {
+    font-weight: bold;
   }
 
   /* The frame is a transparent border with the graph paper painted behind it:
